@@ -37,8 +37,25 @@ function changeQuantity(storage, id, qnt) {
   return storage;
 }
 
-function removeFromCart() { return notImplemented(); }
-function calculateCartSubtotal() { return notImplemented(); }
+function removeFromCart(storage, id) {
+  const cart = [...storage];
+  const isInCart = cart.find((item) => item.id === id);
+  if (isInCart) {
+    return cart.filter((item) => item.id !== id);
+  }
+  return storage;
+}
+
+function calculateCartSubtotal(storage) {
+  let total = 0;
+  if (storage.length > 0) {
+    storage.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    return total;
+  }
+  return total;
+}
 function calculateOrderTotal() { return notImplemented(); }
 
 const cartApi = { addToCart, changeQuantity, removeFromCart, calculateCartSubtotal, calculateOrderTotal };
