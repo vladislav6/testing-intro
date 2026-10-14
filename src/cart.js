@@ -1,7 +1,3 @@
-function notImplemented() {
-  throw new Error('Корзина ещё не реализована. Сначала прочитайте тесты.');
-}
-
 function addToCart(storage, product, qnt) {
   if (qnt === 0 || qnt > product.stock) {
     throw RangeError();
@@ -56,7 +52,17 @@ function calculateCartSubtotal(storage) {
   }
   return total;
 }
-function calculateOrderTotal() { return notImplemented(); }
+
+function calculateOrderTotal(storage, promo) {
+  const subtotal = calculateCartSubtotal(storage);
+  const delivery = subtotal < 50000 ? 30000 : 0;
+  let discount = 0;
+  if (promo === 'SAVE10' && subtotal >= 20000) {
+    discount = subtotal * 0.1;
+  }
+  const total  = subtotal + delivery - discount;
+  return {subtotal, discount, delivery, total};
+}
 
 const cartApi = { addToCart, changeQuantity, removeFromCart, calculateCartSubtotal, calculateOrderTotal };
 
