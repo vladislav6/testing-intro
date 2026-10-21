@@ -1,19 +1,27 @@
 function addToCart(storage, product, qnt) {
-  if (qnt === 0 || qnt > product.stock) {
+  const isInCart = storage.find((item) => item.id === product.id);
+  const cart = [...storage];
+  if (
+    !isInCart &&
+    qnt > 0 &&
+    qnt < product.stock
+  ) {
+    cart.push({ ...product, quantity: qnt });
+    return cart;
+  }
+  if (
+    qnt <= 0 ||
+    qnt > product.stock ||
+    isInCart.quantity >= product.stock
+  ) {
     throw RangeError();
   }
-  const cart = [...storage];
-  const isInCart = cart.find((item) => item.id === product.id);
-  if (isInCart) {
-    return cart.map((item) => {
-      if (item.id === product.id) {
-        item.quantity += qnt;
-      }
-      return item;
-    });
-  }
-  cart.push({ ...product, quantity: qnt });
-  return cart;
+  return cart.map((item) => {
+    if (item.id === product.id) {
+      item.quantity += qnt;
+    }
+    return item;
+  });
 }
 
 function changeQuantity(storage, id, qnt) {
