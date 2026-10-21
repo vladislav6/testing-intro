@@ -38,6 +38,7 @@ describe('sortProductsByPrice', () => {
     expect(sortProductsByPrice(id134, 'desc')).not.toBe(id134);
   });
   test('направление по умолчанию не меняет исходный массив всех товаров', () => {
-    expect(sortProductsByPrice(products)).not.toBe(products);
+    expect(sortProductsByPrice(products))
+      .toEqual(products.sort((first, second) => first.price - second.price));
   });
 });
